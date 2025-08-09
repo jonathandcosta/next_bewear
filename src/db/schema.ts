@@ -6,7 +6,7 @@ export const userTable = pgTable("user", {
   name: text().notNull(),
 });
 
-export const categoryTable = pgTable("catogory", {
+export const categoryTable = pgTable("category", {
   id: uuid().primaryKey().defaultRandom(),
   name: text().notNull(),
   slug: text().notNull().unique(),
@@ -46,10 +46,10 @@ export const productVariantTable = pgTable("product_variant", {
   color: text().notNull(),
   priceInCents: integer("price_in_cents").notNull(),
   imageUrl: text("image_url").notNull(),
-  createdAt: timestamp("create_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const productVariantTableRelations = relations(
+export const productVariantRelations = relations(
   productVariantTable,
   ({ one }) => ({
     product: one(productTable, {
