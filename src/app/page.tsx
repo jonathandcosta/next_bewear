@@ -6,6 +6,6 @@ const Home = () => {
       <Button>Boot-Camp</Button>
     </div>
   );
-}
+};
 
 export default Home;
