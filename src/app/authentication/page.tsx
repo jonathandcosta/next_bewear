@@ -1,6 +1,6 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import SignInForm from "./components/sign-in-form"
-import SignUpForm from "./components/sign-up-form"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SignInForm from "./components/sign-in-form";
+import SignUpForm from "./components/sign-up-form";
 
 const Athentication = () => {
   return (
@@ -18,8 +18,7 @@ const Athentication = () => {
         </TabsContent>
       </Tabs>
     </div>
-  )
-}
-
+  );
+};
 
 export default Athentication;

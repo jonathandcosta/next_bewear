@@ -1,47 +1,62 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { authClient } from '@/lib/auth-client';
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from 'sonner';
-import z from "zod"
+import { toast } from "sonner";
+import z from "zod";
 
-const formSchema = z.object({
-  nome: z.string('E-mail inválido').trim().min(1, "Nome é obrigatório"),
-  email: z.email('E-mail inválido'),
-  password: z.string().min(8, 'Senha inválida'),
-  passwordConfirmation: z.string().min(8, 'Senha inválida')
-})
+const formSchema = z
+  .object({
+    nome: z.string("Nome inválido").trim().min(1, "Nome é obrigatório"),
+    email: z.email("E-mail inválido"),
+    password: z.string().min(8, "Senha inválida"),
+    passwordConfirmation: z.string().min(8, "Senha inválida"),
+  })
   //confere a senha inserida
   .refine(
     (data) => {
-      return data.password === data.passwordConfirmation
+      return data.password === data.passwordConfirmation;
     },
     {
       error: "Senhas não coincidem",
-      path: ["passwordConfirmation"]
-    }
-  )
+      path: ["passwordConfirmation"],
+    },
+  );
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nome: '',
-      email: '',
-      password: '',
-      passwordConfirmation: ''
-    }
-  })
+      nome: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    },
+  });
 
   //testa o formulário
   async function onSubmit(values: FormValues) {
@@ -53,17 +68,17 @@ const SignUpForm = () => {
         onSuccess: () => {
           router.push("/"); //se OK, envia o usuário para a página inicial
         },
-        onError: (error) => { //valida as informações inseridas
+        onError: (error) => {
+          //valida as informações inseridas
           if (error.error.code === "USER_ALREADY_EXISTS") {
-            // toast.error("e-mail já cadastrado.");
-            form.setError("email", {
-              message: "E-mail já cadastrado!"
-            })
+            toast.error("e-mail já cadastrado.");
           }
-          toast.error(error.error.message)
+          form.setError("email", {
+            message: "E-mail já cadastrado!",
+          });
         },
-      }
-    })
+      },
+    });
   }
 
   return (
@@ -71,9 +86,7 @@ const SignUpForm = () => {
       <Card>
         <CardHeader>
           <CardTitle>Criar Conta</CardTitle>
-          <CardDescription>
-            Crie uma conta para continuar.
-          </CardDescription>
+          <CardDescription>Crie uma conta para continuar.</CardDescription>
         </CardHeader>
 
         <Form {...form}>
@@ -112,7 +125,11 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite sua senha" type='password' {...field} />
+                      <Input
+                        placeholder="Digite sua senha"
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -125,7 +142,11 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Confirmar senha</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite sua senha novamente" type='password' {...field} />
+                      <Input
+                        placeholder="Digite sua senha novamente"
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,8 +160,7 @@ const SignUpForm = () => {
         </Form>
       </Card>
     </>
-  )
-}
-
+  );
+};
 
 export default SignUpForm;
