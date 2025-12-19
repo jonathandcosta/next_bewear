@@ -1,11 +1,15 @@
 import Header from "@/components/common/header";
+import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 
 import Image from "next/image";
 
 const Home = async () => {
-  const products = await db.query.productTable.findMany({});
-  console.log(products);
+  const products = await db.query.productTable.findMany({
+    with: {
+      variants: true,
+    },
+  });
 
   return (
     <>
@@ -19,6 +23,8 @@ const Home = async () => {
           sizes="100vw"
           className="mt-5 h-auto w-full"
         />
+
+        <ProductList title="Mais vendidos" products={products} />
 
         <div className="flex gap-3"></div>
 
