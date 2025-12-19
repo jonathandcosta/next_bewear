@@ -1,8 +1,12 @@
 import Header from "@/components/common/header";
+import { db } from "@/db";
 
 import Image from "next/image";
 
-const Home = () => {
+const Home = async () => {
+  const products = await db.query.productTable.findMany({});
+  console.log(products);
+
   return (
     <>
       <Header />
