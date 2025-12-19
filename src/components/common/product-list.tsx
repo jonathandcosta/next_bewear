@@ -1,6 +1,7 @@
 "use client";
 
 import { productTable, productVariantTable } from "@/db/schema";
+import ProductItem from "./product-item";
 
 interface ProductListProps {
   title: string;
@@ -9,10 +10,13 @@ interface ProductListProps {
   })[];
 }
 
-const ProductList = ({ title }: ProductListProps) => {
+const ProductList = ({ title, products }: ProductListProps) => {
   return (
     <div className="space-y-6">
       <h3 className="font-semibold">{title}</h3>
+      {products.map((product) => (
+        <ProductItem key={product.id} product={product} />
+      ))}
     </div>
   );
 };
