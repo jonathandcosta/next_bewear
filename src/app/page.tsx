@@ -1,4 +1,5 @@
 import CategorySelector from "@/components/common/category-sellector";
+import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
@@ -47,6 +48,7 @@ const Home = async () => {
             className="mt-5 h-auto w-full"
           />
         </div>
+        <Footer />
       </div>
     </>
   );
