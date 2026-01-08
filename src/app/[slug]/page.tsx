@@ -1,5 +1,7 @@
+import Header from "@/components/common/header";
+import ProductItem from "@/components/common/product-item";
 import { db } from "@/db";
-import { categoryTable } from "@/db/schema";
+import { categoryTable, productTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -20,7 +22,22 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
     return notFound();
   }
 
-  return <></>;
+  const products = await db.query.productTable.findMany({
+    where: eq(productTable.categoryId, category.id),
+    with: {
+      variants: true,
+    },
+  });
+
+  return (
+    <>
+      <Header />
+      <h2>{category.name}</h2>
+      {products.map((product) => (
+        <ProductItem key={product.id} product={product} />
+      ))}
+    </>
+  );
 };
 
 export default CategoryPage;
