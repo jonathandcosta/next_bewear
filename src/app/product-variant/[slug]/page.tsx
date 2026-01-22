@@ -49,8 +49,13 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
           sizes="100vw"
         />
 
-        {/* <div>VARIANTES</div> */}
-        <VariantSelector variants={productVariant.product.variants} />
+        {/* VARIANTES */}
+        <div className="px-5">
+          <VariantSelector
+            selectedSlug={productVariant.slug}
+            variants={productVariant.product.variants}
+          />
+        </div>
 
         {/* DETAILS */}
         <div className="px-5">

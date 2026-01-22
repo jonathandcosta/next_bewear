@@ -4,17 +4,22 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface VariantSelectorProps {
+  selectedSlug: string;
   variants: (typeof productVariantTable.$inferSelect)[];
 }
 
-const VariantSelector = ({ variants }: VariantSelectorProps) => {
+const VariantSelector = ({ selectedSlug, variants }: VariantSelectorProps) => {
   return (
     <div className="flex items-center gap-4">
       {variants.map((variant) => (
         <Link
           href={`/product-variant/${variant.slug}`}
           key={variant.id}
-          className="mb-2 block"
+          className={
+            selectedSlug === variant.slug
+              ? "border-primary rounded-xl border-2"
+              : ""
+          }
         >
           <Image
             src={variant.imageUrl}
