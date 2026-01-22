@@ -1,11 +1,13 @@
 import { Header } from "@/components/common/header";
 import { db } from "@/db";
-import { productVariantTable } from "@/db/schema";
+import { productTable, productVariantTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { formatCentsBRL } from "@/helpers/money";
 import { Button } from "@/components/ui/button";
+import ProductList from "@/components/common/product-list";
+import Footer from "@/components/common/footer";
 
 interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;
@@ -21,6 +23,11 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   if (!productVariant) {
     return notFound();
   }
+
+  const likelyProducts = await db.query.productTable.findMany({
+    where: eq(productTable.categoryId, productVariant.product.categoryId),
+    with: { variants: true },
+  });
 
   return (
     <>
@@ -63,8 +70,15 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
 
         {/* DESCRIÇÃO */}
         <div className="px-5">
-          <p className="text-sm">{productVariant.product.description}</p>
+          <p className="text-shadow-amber-600">
+            {productVariant.product.description}
+          </p>
         </div>
+
+        {/* PRODUTOS SEMELHANTES */}
+        <ProductList title="Talvez você goste" products={likelyProducts} />
+
+        <Footer />
       </div>
     </>
   );
