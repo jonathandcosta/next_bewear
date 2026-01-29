@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import ProductList from "@/components/common/product-list";
 import Footer from "@/components/common/footer";
 import VariantSelector from "./components/variant-selector";
+import QuantitySelector from "./components/quantity-selector";
 
 interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;
@@ -69,7 +70,9 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
         </div>
 
         {/* QUANTIDADE */}
-        <div className="px-5"></div>
+        <div className="px-5">
+          <QuantitySelector />
+        </div>
 
         {/* BOTÕES */}
         <div className="flex flex-col space-y-4 px-5">
